@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "conare": {
-      "type": "http",
-      "url": "https://conare.ai/mcp"
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/mcp-bridge.mjs"]
     }
   }
 }
