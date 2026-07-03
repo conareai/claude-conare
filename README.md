@@ -4,18 +4,23 @@
 history — past sessions, decisions, file paths, preferences — loaded into every
 session automatically.
 
-One install delivers three things:
+Two things, nothing else:
 
 1. **Instant project brief at session start.** A `SessionStart` hook injects a
    precomputed, freshness-stamped brief for the repo you're in — what the
    project is, what changed recently, working rules, known pitfalls — in about
    a second, before the model's first token. No tool call, no waiting on
    retrieval.
-2. **The Conare MCP server** (`recall` / `search` / `save` / `forget`),
-   bundled via a local bridge — authenticates with your existing Conare API
-   key, no OAuth prompts, no manual MCP configuration.
-3. **The memory-first skill**, teaching the agent when to reach for memory
-   instead of re-exploring your codebase.
+2. **The memory-first skill**, teaching the agent when to reach for memory
+   (`recall` / `search` / `save`) instead of re-exploring your codebase.
+
+The MCP server, your API key, and chat-history sync all come from the Conare
+CLI — one command, and it configures everything including Claude Code's MCP
+entry:
+
+```bash
+bunx conare@latest
+```
 
 ## Install
 
@@ -24,25 +29,12 @@ One install delivers three things:
 /plugin install conare@conare
 ```
 
-Already ran `bunx conare@latest`? You're done — the plugin picks up your
-existing API key from `~/.conare/config.json` and everything works
-immediately. Not signed in yet? The memory tools are replaced by a single
-`setup` tool that walks the agent (and you) through `bunx conare@latest`; the
-real tools appear the moment you sign in, no restart needed.
+That's it. If you haven't run `bunx conare@latest` yet, run it once — the
+hook and the memory tools both use the credentials it creates.
 
 **Teams:** install with `--scope project` and the plugin lands in
 `.claude/settings.json` `enabledPlugins` — everyone who clones the repo gets
 the whole integration.
-
-## How the MCP bridge works
-
-`scripts/mcp-bridge.mjs` (zero dependencies — read it): a stdio ↔ HTTP bridge
-that reads your API key from `~/.conare/config.json` and forwards JSON-RPC to
-`https://api.conare.ai/mcp` with the Bearer header — exactly what the Conare
-CLI configures, so both paths share one credential. The key is re-checked on
-every message: sign in mid-session and the tools start working without a
-reconnect. With no key present, the bridge answers locally with the `setup`
-tool instead of failing.
 
 ## How the hook works
 
@@ -76,8 +68,9 @@ twice.
 - The hook sends only a repo-identity hash and your API key over HTTPS. No
   code, no file contents, no prompts.
 - No secrets are baked into the plugin — your API key stays in
-  `~/.conare/config.json` and is read locally by the hook and the bridge.
-- Everything this plugin executes is in this repo, in plain JavaScript.
+  `~/.conare/config.json` and is read locally by the hook.
+- Everything this plugin executes is in this repo: one hook script, plain
+  JavaScript.
 
 ## Uninstall
 
