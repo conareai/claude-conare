@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "conare": {
+      "type": "http",
+      "url": "https://conare.ai/mcp"
+    }
+  }
+}
