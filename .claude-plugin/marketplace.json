@@ -1,0 +1,14 @@
+{
+  "name": "conare",
+  "owner": {
+    "name": "Conare",
+    "url": "https://conare.ai"
+  },
+  "plugins": [
+    {
+      "name": "conare",
+      "source": "./",
+      "description": "Persistent memory for coding agents — instant project brief at session start, recall/search/save over MCP."
+    }
+  ]
+}

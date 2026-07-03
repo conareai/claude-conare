@@ -1,0 +1,12 @@
+{
+  "name": "conare",
+  "version": "1.0.0",
+  "description": "Persistent memory for coding agents — instant project brief at session start, recall/search/save over MCP.",
+  "author": {
+    "name": "Conare",
+    "url": "https://conare.ai"
+  },
+  "repository": "https://github.com/conareai/claude-conare",
+  "license": "MIT",
+  "keywords": ["memory", "context", "recall", "mcp"]
+}
