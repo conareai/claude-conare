@@ -21,8 +21,19 @@ jobs:
             node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" && echo "ok $f"
           done
 
-      - name: hook script parses
-        run: node --check scripts/session-start.mjs
+      - name: scripts parse
+        run: |
+          node --check scripts/session-start.mjs
+          node --check scripts/mcp-bridge.mjs
+
+      - name: "bridge smoke: signed-out ⇒ local setup server"
+        run: |
+          out=$(printf '%s\n' \
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26"}}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
+            | HOME=$(mktemp -d) node scripts/mcp-bridge.mjs)
+          echo "$out" | grep -q '"serverInfo"' && echo "initialize ok"
+          echo "$out" | grep -q '"name":"setup"' && echo "setup tool ok"
 
       - name: "hook smoke: no credentials ⇒ empty output, exit 0"
         run: |

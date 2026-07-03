@@ -1,6 +1,6 @@
 {
   "name": "conare",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Persistent memory for coding agents — instant project brief at session start, recall/search/save over MCP.",
   "author": {
     "name": "Conare",
